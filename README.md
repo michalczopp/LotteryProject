@@ -1,1 +1,1 @@
-# TEMPLATE
+# A simple lottery contract;
