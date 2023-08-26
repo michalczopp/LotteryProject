@@ -1,7 +1,9 @@
 import { ethers } from "hardhat";
 import * as readline from "readline";
-import { Lottery, LotteryToken } from "../typechain-types";
+import { Lottery, LotteryToken, LotteryToken__factory, Lottery__factory } from "../typechain-types";
 import { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers";
+import { ContractFactory } from "ethers";
+import { waitForDebugger } from "inspector";
 
 let contract: Lottery;
 let token: LotteryToken;
@@ -22,12 +24,17 @@ async function main() {
 }
 
 async function initAccounts() {
-    const accounts = ethers.getSigners();
+    accounts = await ethers.getSigners();
  
 }
 
 async function initContracts() {
-
+  const contractFactrory = new Lottery__factory(accounts[0]);
+  contract = await contractFactrory.deploy("Group", "GRP", TOKEN_RATIO, BET_PRICE, BET_FEE);
+  await contract.waitForDeployment();
+  const tokenAddress = await contract.paymentToken();
+  const tokenFactory = new LotteryToken__factory(accounts[0]) 
+  token = tokenFactory.attach(tokenAddress) as LotteryToken;
   
 }
 
@@ -175,18 +182,25 @@ async function checkState() {
     );  
     console.log(
       `lottery should close at ${closingTimeDate.toLocaleDateString()} : ${closingTimeDate.toLocaleTimeString()}\n`
-  
     );
-  
   }
 
 async function openBets(duration: string) {
-    
-  // TODO
+  const currentBlock = await ethers.provider.getBlock("latests");
+  const timestamp = currentBlock?.timestamp ?? 0;
+  const tx = await contract.openBets(timestamp + Number(duration));
+  const receipt = await tx.wait();
+  console.log(`Bets opened (${receipt?.hash})`);
+
 }
 
 async function displayBalance(index: string) {
-  // TODO
+  const balanceBN = await ethers.provider.getBalance(
+    accounts[Number(index)].address
+  );
+  const balance = ethers.formatUnits(balanceBN);
+  console.log(`The  account of address ${accounts[Number(index)].address} has
+  ${balance}`);
 }
 
 async function buyTokens(index: string, amount: string) {
@@ -194,7 +208,11 @@ async function buyTokens(index: string, amount: string) {
 }
 
 async function displayTokenBalance(index: string) {
-  // TODO
+  const balanceBN = await token.balanceOf(accounts[Number(index)].address);
+  const balance = ethers.formatUnits(balanceBN);
+  console.log(`The  account of address ${accounts[Number(index)].address} has
+  ${balance} LT0\n`);
+
 }
 
 async function bet(index: string, amount: string) {

@@ -26,44 +26,140 @@ import type {
 export interface LotteryInterface extends Interface {
   getFunction(
     nameOrSignature:
+      | "bet"
+      | "betFee"
+      | "betMany"
+      | "betPrice"
       | "betsClosingTime"
       | "betsOpen"
+      | "closeLottery"
+      | "getRandomNumber"
       | "openBets"
       | "owner"
+      | "ownerPool"
+      | "ownerWithdraw"
+      | "paymentToken"
+      | "prize"
+      | "prizePool"
+      | "prizeWithdraw"
+      | "purchaseRatio"
+      | "purchaseTokens"
       | "renounceOwnership"
+      | "returnTokens"
       | "transferOwnership"
   ): FunctionFragment;
 
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 
+  encodeFunctionData(functionFragment: "bet", values?: undefined): string;
+  encodeFunctionData(functionFragment: "betFee", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "betMany",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(functionFragment: "betPrice", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "betsClosingTime",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "betsOpen", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "closeLottery",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getRandomNumber",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "openBets",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(functionFragment: "ownerPool", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "ownerWithdraw",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "paymentToken",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "prize", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "prizePool", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "prizeWithdraw",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "purchaseRatio",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "purchaseTokens",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "returnTokens",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [AddressLike]
   ): string;
 
+  decodeFunctionResult(functionFragment: "bet", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "betFee", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "betMany", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "betPrice", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "betsClosingTime",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "betsOpen", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "closeLottery",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getRandomNumber",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "openBets", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ownerPool", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "ownerWithdraw",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "paymentToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "prize", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "prizePool", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "prizeWithdraw",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "purchaseRatio",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "purchaseTokens",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "returnTokens",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -128,9 +224,21 @@ export interface Lottery extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
+  bet: TypedContractMethod<[], [void], "nonpayable">;
+
+  betFee: TypedContractMethod<[], [bigint], "view">;
+
+  betMany: TypedContractMethod<[times: BigNumberish], [void], "nonpayable">;
+
+  betPrice: TypedContractMethod<[], [bigint], "view">;
+
   betsClosingTime: TypedContractMethod<[], [bigint], "view">;
 
   betsOpen: TypedContractMethod<[], [boolean], "view">;
+
+  closeLottery: TypedContractMethod<[], [void], "nonpayable">;
+
+  getRandomNumber: TypedContractMethod<[], [bigint], "view">;
 
   openBets: TypedContractMethod<
     [closingTime: BigNumberish],
@@ -140,7 +248,37 @@ export interface Lottery extends BaseContract {
 
   owner: TypedContractMethod<[], [string], "view">;
 
+  ownerPool: TypedContractMethod<[], [bigint], "view">;
+
+  ownerWithdraw: TypedContractMethod<
+    [amount: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
+
+  paymentToken: TypedContractMethod<[], [string], "view">;
+
+  prize: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+
+  prizePool: TypedContractMethod<[], [bigint], "view">;
+
+  prizeWithdraw: TypedContractMethod<
+    [amount: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
+
+  purchaseRatio: TypedContractMethod<[], [bigint], "view">;
+
+  purchaseTokens: TypedContractMethod<[], [void], "payable">;
+
   renounceOwnership: TypedContractMethod<[], [void], "nonpayable">;
+
+  returnTokens: TypedContractMethod<
+    [amount: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
   transferOwnership: TypedContractMethod<
     [newOwner: AddressLike],
@@ -153,11 +291,29 @@ export interface Lottery extends BaseContract {
   ): T;
 
   getFunction(
+    nameOrSignature: "bet"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "betFee"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "betMany"
+  ): TypedContractMethod<[times: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "betPrice"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
     nameOrSignature: "betsClosingTime"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "betsOpen"
   ): TypedContractMethod<[], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "closeLottery"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "getRandomNumber"
+  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "openBets"
   ): TypedContractMethod<[closingTime: BigNumberish], [void], "nonpayable">;
@@ -165,8 +321,35 @@ export interface Lottery extends BaseContract {
     nameOrSignature: "owner"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
+    nameOrSignature: "ownerPool"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "ownerWithdraw"
+  ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "paymentToken"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "prize"
+  ): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "prizePool"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "prizeWithdraw"
+  ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "purchaseRatio"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "purchaseTokens"
+  ): TypedContractMethod<[], [void], "payable">;
+  getFunction(
     nameOrSignature: "renounceOwnership"
   ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "returnTokens"
+  ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "transferOwnership"
   ): TypedContractMethod<[newOwner: AddressLike], [void], "nonpayable">;
