@@ -128,7 +128,7 @@ function App() {
 
 function FetchData() {
   const { data, isError, isLoading } = useContractRead({
-    address: "",
+    address: "0xdfa1a1b5f15cb8685e1c9859b02ae22b706c2d3a",
     "abi": [
       {
         "inputs": [
@@ -448,7 +448,7 @@ function FetchData() {
 
 function ThePrize() {
   const { data, isError, isLoading } = useContractRead({
-    address: "",
+    address: "0xdfa1a1b5f15cb8685e1c9859b02ae22b706c2d3a",
     "abi": [
       {
         "inputs": [
